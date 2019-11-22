@@ -1,6 +1,7 @@
 package com.thanhtung.mp3downloader.ui.online.detail;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,14 @@ import com.thanhtung.mp3downloader.databinding.FragmentPlaySongBinding;
 
 public class PlaySongFragment extends Fragment {
     private FragmentPlaySongBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_play_song,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_play_song, container, false);
+        Log.e("LOG","RECRATE - PLAYSONG");
         return binding.getRoot();
     }
+
+
 }

@@ -1,19 +1,24 @@
 package com.thanhtung.mp3downloader.ui.online.search;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.adapter.SongAdapter;
 import com.thanhtung.mp3downloader.databinding.FragmentOnlineSearchMusicBinding;
 import com.thanhtung.mp3downloader.model.Song;
+import com.thanhtung.mp3downloader.ui.online.OnlineMusicFragment;
+
 import java.util.List;
 
 public class OnlineSearchMusicFragment extends Fragment implements SearchView.OnQueryTextListener, SongAdapter.ItemClickListener {
@@ -23,6 +28,7 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
     private static final String baseLink = "https://chiasenhac.vn/tim-kiem?q=";
     private SongAdapter adapter;
     private Context context;
+    private OnlineMusicFragment fmOnline;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,11 +43,13 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
         musicViewModel = ViewModelProviders.of(this).get(OnlineSearchMusicViewModel.class);
         adapter = new SongAdapter(context);
         adapter.setListener(this);
+        fmOnline = (OnlineMusicFragment) getParentFragment();
+
         binding.searchView.setOnQueryTextListener(this);
         musicViewModel.getSongs().observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(List<Song> songs) {
-                if (songs.size()!=0){
+                if (songs.size() != 0) {
                     adapter.setData(songs);
                     binding.rvSong.setAdapter(adapter);
                 }
@@ -62,6 +70,7 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
 
     @Override
     public void onItemSongClicked(Song song) {
-
+        fmOnline.showFragment(fmOnline.getFmDetail(),android.R.anim.slide_in_left,android.R.anim.slide_in_left);
+        fmOnline.getFmDetail().setSong(song);
     }
 }

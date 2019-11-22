@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +26,7 @@ public class OnlineMusicFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_online_music, container, false);
         init();
-        showFragment(fmSearch);
+        showFragment(fmSearch,android.R.anim.fade_in,android.R.anim.fade_out);
         return binding.getRoot();
     }
 
@@ -35,10 +36,11 @@ public class OnlineMusicFragment extends Fragment {
         transaction.add(R.id.ly_frame,fmDetail);
         transaction.commit();
     }
-    private void showFragment(Fragment fmShow){
+    public void showFragment(Fragment fmShow, int animationIn, int animationOut){
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.hide(fmDetail);
         transaction.hide(fmSearch);
+        transaction.setCustomAnimations(animationIn,animationOut);
         transaction.show(fmShow);
         transaction.commit();
     }
