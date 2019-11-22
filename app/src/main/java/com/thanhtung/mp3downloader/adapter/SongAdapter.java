@@ -19,13 +19,13 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
 
     private List<Song> data;
     private LayoutInflater inflater;
-    private PeopleItemClickListener listener;
+    private ItemClickListener listener;
 
     public SongAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void setListener(PeopleItemClickListener listener) {
+    public void setListener(ItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -49,7 +49,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemPeopleClicked(position);
+                    listener.onItemSongClicked(data.get(position));
                 }
             });
         }
@@ -70,15 +70,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
 
         public void bindData(Song item) {
             binding.setItem(item);
-
             Glide.with(binding.imvAvatar)
                     .load(item.getImageLink())
                     .into(binding.imvAvatar);
         }
-
     }
-
-    public interface PeopleItemClickListener {
-        void onItemPeopleClicked(int position);
+    public interface ItemClickListener {
+        void onItemSongClicked(Song song);
     }
 }

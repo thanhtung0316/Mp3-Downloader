@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
-
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.thanhtung.mp3downloader.ui.online.OnlineMusicFragment"
         android:label="@string/title_online"
-        tools:layout="@layout/fragment_online_music" />
-
+        tools:layout="@layout/fragment_online_search_music" />
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.thanhtung.mp3downloader.ui.youtube.YoutubeFragment"
