@@ -19,11 +19,6 @@ public class SearchAsync extends AsyncTask<String, Void, ArrayList<Song>> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected ArrayList<Song> doInBackground(String... strings) {
         songs = new ArrayList<>();
         try {
@@ -38,7 +33,14 @@ public class SearchAsync extends AsyncTask<String, Void, ArrayList<Song>> {
                     String imgLink = el.select("div > a > img").attr("src");
                     String songQuality = el.select("div > small > span.card-text").text();
                     String viewCount = el.select("div > small.time_stt").text();
-                    songs.add(new Song(songName,songArtist,songQuality,viewCount,imgLink,linkDetail));
+                    Song song = new Song();
+                    song.setLinkDetail(linkDetail);
+                    song.setSongName(songName);
+                    song.setSongArtist(songArtist);
+                    song.setImageLink(imgLink);
+                    song.setSongQuality(songQuality);
+                    song.setSongViews(viewCount);
+                    songs.add(song);
                 }
             }
 

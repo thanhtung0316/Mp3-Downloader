@@ -21,7 +21,7 @@ public class PlaySongFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_play_song, container, false);
-        Log.e("LOG","RECRATE - PLAYSONG");
+        Log.e("LOG","RECREATE - PLAY SONG");
         return binding.getRoot();
     }
 

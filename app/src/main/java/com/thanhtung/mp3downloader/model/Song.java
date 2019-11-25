@@ -8,16 +8,6 @@ public class Song {
     private String imageLink;
     private String linkDetail;
 
-
-    public Song(String songName, String songArtist, String songQuality, String songViews, String imageLink, String linkDetail) {
-        this.songName = songName;
-        this.songArtist = songArtist;
-        this.songQuality = songQuality;
-        this.songViews = songViews;
-        this.imageLink = imageLink;
-        this.linkDetail = linkDetail;
-    }
-
     public String getImageLink() {
         return imageLink;
     }
