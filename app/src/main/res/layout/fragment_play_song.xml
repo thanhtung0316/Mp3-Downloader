@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F44336"
-        android:orientation="vertical">
-
-    </LinearLayout>
+        android:layout_height="match_parent">
+        <com.jgabrielfreitas.core.BlurImageView
+            android:id="@+id/imv_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="136dp"
+             />
+        <ImageView
+            android:layout_marginBottom="156dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/imv_song"
+            android:layout_width="300dp"
+            android:layout_height="300dp"/>
+    </RelativeLayout>
 </layout>

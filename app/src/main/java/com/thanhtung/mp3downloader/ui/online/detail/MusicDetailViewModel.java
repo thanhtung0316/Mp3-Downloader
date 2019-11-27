@@ -7,10 +7,11 @@ import com.thanhtung.mp3downloader.model.Song;
 import com.thanhtung.mp3downloader.model.SongDetail;
 
 
-public class MusicDetailViewModel extends ViewModel {
+public class MusicDetailViewModel extends ViewModel implements GetSongDetailAsync.GetSongDetailCallBack {
 
     private MutableLiveData<SongDetail> songDetail;
     private Song song;
+
 
     public void setSong(Song song) {
         this.song = song;
@@ -27,6 +28,12 @@ public class MusicDetailViewModel extends ViewModel {
 
     private void fetchData(Song song) {
         GetSongDetailAsync async = new GetSongDetailAsync();
+        async.setmCallback(this);
         async.execute(song);
+    }
+
+    @Override
+    public void OnGetSongDetailComplete(SongDetail song) {
+        songDetail.setValue(song);
     }
 }

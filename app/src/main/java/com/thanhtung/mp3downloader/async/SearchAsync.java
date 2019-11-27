@@ -14,7 +14,7 @@ public class SearchAsync extends AsyncTask<String, Void, ArrayList<Song>> {
     private ArrayList<Song> songs;
     private SearchTaskCallBack mCallback;
 
-    public void setmCallback(SearchTaskCallBack mCallback) {
+    public void setCallback(SearchTaskCallBack mCallback) {
         this.mCallback = mCallback;
     }
 
@@ -47,7 +47,7 @@ public class SearchAsync extends AsyncTask<String, Void, ArrayList<Song>> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("LOG", "ERROR" + e);
+            Log.e("LOG", "SEARCH ERROR" + e);
         }
 
         return songs;

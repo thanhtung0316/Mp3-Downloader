@@ -1,35 +1,21 @@
 package com.thanhtung.mp3downloader.ui.youtube;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.thanhtung.mp3downloader.R;
-
+import com.thanhtung.mp3downloader.databinding.FragmentYoutubeBinding;
 public class YoutubeFragment extends Fragment {
-
-    private YoutubeViewModel youtubeViewModel;
-
+    private FragmentYoutubeBinding binding;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        youtubeViewModel =
-                ViewModelProviders.of(this).get(YoutubeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_offline_music, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        youtubeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_youtube,container,false);
+
+        return binding.getRoot();
     }
 }

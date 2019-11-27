@@ -23,7 +23,7 @@ import java.util.List;
 
 public class OnlineSearchMusicFragment extends Fragment implements SearchView.OnQueryTextListener, SongAdapter.ItemClickListener {
     private FragmentOnlineSearchMusicBinding binding;
-    private OnlineSearchMusicViewModel musicViewModel;
+    private OnlineSearchMusicViewModel musicSearchViewModel;
     private String TAG = "OnlineSearchMusicFragment";
     private static final String baseLink = "https://chiasenhac.vn/tim-kiem?q=";
     private SongAdapter adapter;
@@ -40,26 +40,23 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
     }
 
     private void init() {
-        musicViewModel = ViewModelProviders.of(this).get(OnlineSearchMusicViewModel.class);
         adapter = new SongAdapter(context);
-        adapter.setListener(this);
         fmOnline = (OnlineMusicFragment) getParentFragment();
-
+        adapter.setListener(this);
         binding.searchView.setOnQueryTextListener(this);
-        musicViewModel.getSongs().observe(this, new Observer<List<Song>>() {
+        musicSearchViewModel = ViewModelProviders.of(requireActivity()).get(OnlineSearchMusicViewModel.class);
+        musicSearchViewModel.getSongs().observe(requireActivity(), new Observer<List<Song>>() {
             @Override
             public void onChanged(List<Song> songs) {
-                if (songs.size() != 0) {
-                    adapter.setData(songs);
-                    binding.rvSong.setAdapter(adapter);
-                }
+                adapter.setData(songs);
+                binding.rvSong.setAdapter(adapter);
             }
         });
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        musicViewModel.setLinkToRequest(baseLink + query);
+        musicSearchViewModel.setLinkToRequest(baseLink + query);
         return false;
     }
 
@@ -70,7 +67,9 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
 
     @Override
     public void onItemSongClicked(Song song) {
-        fmOnline.showFragment(fmOnline.getFmDetail(),android.R.anim.slide_in_left,android.R.anim.slide_in_left);
-        fmOnline.getFmDetail().setSong(song);
+        musicSearchViewModel.setItemSongSelected(song);
+        fmOnline.showFragment(fmOnline.getFmDetail(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
+
+
 }

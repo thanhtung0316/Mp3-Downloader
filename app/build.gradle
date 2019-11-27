@@ -40,9 +40,11 @@ dependencies {
     //    cardView
     implementation 'androidx.cardview:cardview:1.0.0'
     //    recycler view
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-rc01'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 //    j_soup
     implementation 'org.jsoup:jsoup:1.12.1'
 //    tab_indicator
     implementation 'me.relex:circleindicator:1.2.2@aar'
+//    blur Image
+    implementation 'com.github.jgabrielfreitas:BlurImageView:1.0.1'
 }
