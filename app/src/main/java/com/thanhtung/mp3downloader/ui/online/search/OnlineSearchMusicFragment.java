@@ -2,6 +2,7 @@ package com.thanhtung.mp3downloader.ui.online.search;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
     @Override
     public boolean onQueryTextSubmit(String query) {
         musicSearchViewModel.setLinkToRequest(baseLink + query);
+        Log.e("TAG","TEXT: "+query);
         return false;
     }
 

@@ -68,6 +68,7 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
         musicDetailViewModel.getSongDetail().observe(getViewLifecycleOwner(), new Observer<SongDetail>() {
             @Override
             public void onChanged(SongDetail songDetail) {
+                Log.e("TAG","");
             }
         });
     }

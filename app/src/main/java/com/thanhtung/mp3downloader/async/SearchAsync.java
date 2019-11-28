@@ -34,6 +34,7 @@ public class SearchAsync extends AsyncTask<String, Void, ArrayList<Song>> {
                     String songQuality = el.select("div > small > span.card-text").text();
                     String viewCount = el.select("div > small.time_stt").text();
                     Song song = new Song();
+
                     song.setLinkDetail(linkDetail);
                     song.setSongName(songName);
                     song.setSongArtist(songArtist);

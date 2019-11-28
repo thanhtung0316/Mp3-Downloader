@@ -35,26 +35,24 @@ public class GetSongDetailAsync extends AsyncTask<Song, Void, SongDetail> {
                         "> div:nth-child(4) > div.col-md-4 > div > div.card-body > ul");
                 String songComposer = eSong.tagName("span").text();
 
-
                 Elements downloadInfo = doc.getElementById("pills-download")
-                        .select("#pills-download > div > div.card-body > div > div.col-12.tab_download_music > ul > li:nth-child(1)");
-
-                for (Element e:downloadInfo  ) {
-                    Log.e("TAG","E: "+downloadInfo.size());
-                }
-
+                        .select("#pills-download > div > div.card-body > div > div.col-12.tab_download_music > ul > li");
+                String downloadLink = downloadInfo.select("a").attr("href");
+//                for ( Element e: downloadInfo ) {
+//                    String downloadLink = e.select("a").attr("href");
+//                    String qualityTitle = e.select("a > span").text();
+//                    Log.e("TAG","DownloadLink: "+downloadLink +qualityTitle);
+//                }
+                Log.e("LOG", "downloadLink: " + downloadLink);
                 songDetail.setSongName(song.getSongName());
                 songDetail.setSongArtist(song.getSongArtist());
                 songDetail.setImageLink(song.getImageLink());
                 songDetail.setSongQuality(song.getSongQuality());
                 songDetail.setLinkDetail(song.getLinkDetail());
                 songDetail.setSongViews(song.getSongViews());
-
-
+                songDetail.setSongDownloadLink(downloadLink);
                 songDetail.setSongLyric(songLyric);
                 songDetail.setSongComposer(songComposer);
-
-//                Log.e("TAG","Download: "+downloadInfo);
 
             }
 
