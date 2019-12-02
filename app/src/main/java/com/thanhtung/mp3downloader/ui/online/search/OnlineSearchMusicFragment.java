@@ -45,6 +45,8 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
         fmOnline = (OnlineMusicFragment) getParentFragment();
         adapter.setListener(this);
         binding.searchView.setOnQueryTextListener(this);
+
+
         musicSearchViewModel = ViewModelProviders.of(requireActivity()).get(OnlineSearchMusicViewModel.class);
         musicSearchViewModel.getSongs().observe(requireActivity(), new Observer<List<Song>>() {
             @Override
