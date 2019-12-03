@@ -60,7 +60,6 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
     @Override
     public boolean onQueryTextSubmit(String query) {
         musicSearchViewModel.setLinkToRequest(baseLink + query);
-        Log.e("TAG","TEXT: "+query);
         return false;
     }
 

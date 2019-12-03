@@ -3,17 +3,22 @@ package com.thanhtung.mp3downloader.async;
 
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class DownloadAsync extends AsyncTask<String, Integer, String> {
 
     private DownloadCallback callback;
-
+    private File file;
     public DownloadAsync(DownloadCallback callback) {
         this.callback = callback;
     }
@@ -25,8 +30,35 @@ public class DownloadAsync extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String link = strings[0];
-        return download(link);
+        int count;
+        try {
+            URL url = new URL(strings[0]);
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            int lengthOfFile = connection.getContentLength();
+            Log.e("TAG", "LENGTH: " + lengthOfFile);
+            InputStream inputStream = connection.getInputStream();
+
+            file = new File("sdcard/");
+
+            OutputStream outputStream = new FileOutputStream(file);
+
+            byte[] data = new byte[1024];
+            long total = 0;
+
+            while ((count = inputStream.read(data)) != -1) {
+                total += count;
+                publishProgress((int) (total * 100) / lengthOfFile);
+                outputStream.write(data, 0, count);
+            }
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -39,44 +71,10 @@ public class DownloadAsync extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         callback.onDownloadSuccess(s);
+        String absolutePath = file.getAbsolutePath();
+        Log.e("TAG","PATH: "+absolutePath);
     }
 
-    private String download(String link) {
-        try {
-            // connect file internet
-            URL url = new URL(link);
-            URLConnection connection = url.openConnection();
-            InputStream in = connection.getInputStream();
-            // create local file
-            String path = Environment.getExternalStorageState()
-                    + "/Mp3Downloader/" + System.currentTimeMillis() + ".mp3";
-            File f = new File(path);
-            f.getParentFile().mkdirs();
-            f.createNewFile();
-            FileOutputStream out = new FileOutputStream(f);
-            // write file
-            byte[] b = new byte[1024];
-            int total = connection.getContentLength();
-            int current = 0;
-            int count = in.read(b);
-            while (count > 0) {
-                // calculator percent of downloaded
-                current += count;
-                int percent = (int) ((float)current/ total * 100);
-                // update ui
-                publishProgress(percent);
-                // write file
-                out.write(b, 0, count);
-                count = in.read(b);
-            }
-            in.close();
-            out.close();
-            return f.getPath();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public interface DownloadCallback {
         void onDownloadUpdate(int percent);

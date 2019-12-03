@@ -42,7 +42,6 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
     };
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
@@ -60,17 +59,17 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
         return binding.getRoot();
     }
 
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imv_back:
                 fmOnline.showFragment(fmOnline.getFmSearch(), android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.imv_download:
-                if (checkPermission()){
-                    async = new DownloadAsync(downloadCallback);
-                    async.execute();
+                if (checkPermission()) {
+//                    async = new DownloadAsync(downloadCallback);
+//                    async.execute();
+                    Log.e("TAG", "imv_clicked");
                 }
                 break;
         }
@@ -87,43 +86,63 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
             }
         });
     }
+
     private DownloadAsync.DownloadCallback downloadCallback = new DownloadAsync.DownloadCallback() {
         @Override
         public void onDownloadUpdate(int percent) {
-            Log.e("TAG","PERCENT: "+percent);
+            Log.e("TAG", "PERCENT: " + percent);
         }
 
         @Override
         public void onDownloadSuccess(String path) {
-            Log.e("TAG","DONE "+path);
+            Log.e("TAG", "DONE " + path);
         }
     };
+
     private void getSongDetail() {
         musicDetailViewModel = ViewModelProviders.of(requireActivity()).get(MusicDetailViewModel.class);
         musicDetailViewModel.getSongDetail().observe(getViewLifecycleOwner(), new Observer<SongDetail>() {
             @Override
             public void onChanged(final SongDetail songDetail) {
-                Log.e("TAG","");
+                binding.imvDownload.setVisibility(View.VISIBLE);
                 binding.imvDownload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        async = new DownloadAsync(downloadCallback);
-                        async.execute(songDetail.getSongDownloadLink());
+                        if (checkPermission()) {
+                            async = new DownloadAsync(downloadCallback);
+                            async.execute(songDetail.getSongDownloadLink());
+                            Log.e("TAG", "Clicked");
+                        } else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(PERMISSIONS, 0);
+                            }
+                        }
+
                     }
                 });
-
             }
         });
     }
-    private boolean checkPermission(){
+
+    private boolean checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (String p : PERMISSIONS) {
                 int check = context.checkSelfPermission(p);
-                if (check != PackageManager.PERMISSION_GRANTED){
+                if (check != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (checkPermission()){
+            Log.e("TAG","ON result OK");
+        } else {
+            Log.e("TAG","ON result NOT OK");
+        }
     }
 }
