@@ -14,24 +14,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.thanhtung.mp3downloader.R;
+import com.thanhtung.mp3downloader.SystemDataUtils;
 
 public class OfflineMusicFragment extends Fragment {
 
     private OfflineMusicViewModel notificationsViewModel;
-
+    private SystemDataUtils dataUtils;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
                 ViewModelProviders.of(this).get(OfflineMusicViewModel.class);
         View root = inflater.inflate(R.layout.fragment_youtube, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        dataUtils = new SystemDataUtils(getContext());
         return root;
     }
 }

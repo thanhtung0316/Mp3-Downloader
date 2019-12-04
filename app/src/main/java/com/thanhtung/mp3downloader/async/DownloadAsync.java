@@ -39,7 +39,7 @@ public class DownloadAsync extends AsyncTask<String, Integer, String> {
             Log.e("TAG", "LENGTH: " + lengthOfFile);
             InputStream inputStream = connection.getInputStream();
 
-            file = new File("sdcard/");
+            file = new File("sdcard/"+System.currentTimeMillis()+".mp3");
 
             OutputStream outputStream = new FileOutputStream(file);
 
@@ -58,7 +58,7 @@ public class DownloadAsync extends AsyncTask<String, Integer, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return file.getAbsolutePath();
     }
 
     @Override

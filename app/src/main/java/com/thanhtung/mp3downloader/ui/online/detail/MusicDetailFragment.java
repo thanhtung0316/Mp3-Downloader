@@ -1,10 +1,14 @@
 package com.thanhtung.mp3downloader.ui.online.detail;
 
 import android.Manifest;
+import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +16,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.bumptech.glide.Glide;
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.adapter.SongDetailPagerAdapter;
 import com.thanhtung.mp3downloader.async.DownloadAsync;
@@ -40,7 +43,7 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
+    private SongDetail detail;
 
     @Nullable
     @Override
@@ -104,13 +107,16 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
         musicDetailViewModel.getSongDetail().observe(getViewLifecycleOwner(), new Observer<SongDetail>() {
             @Override
             public void onChanged(final SongDetail songDetail) {
+                detail = songDetail;
                 binding.imvDownload.setVisibility(View.VISIBLE);
                 binding.imvDownload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (checkPermission()) {
-                            async = new DownloadAsync(downloadCallback);
-                            async.execute(songDetail.getSongDownloadLink());
+//                            async = new DownloadAsync(downloadCallback);
+//                            async.execute(songDetail.getSongDownloadLink());
+                            downloadFile(songDetail);
+
                             Log.e("TAG", "Clicked");
                         } else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -139,10 +145,22 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (checkPermission()){
-            Log.e("TAG","ON result OK");
+        if (checkPermission()) {
+            Log.e("TAG", "ON result OK");
+            downloadFile(detail);
         } else {
-            Log.e("TAG","ON result NOT OK");
+            Log.e("TAG", "ON result NOT OK");
         }
+    }
+
+    private void downloadFile(SongDetail songDetail) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(songDetail.getSongDownloadLink()));
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+        request.setTitle(songDetail.getSongName() + " - " + songDetail.getSongArtist() + ".mp3");
+        request.setDescription("Downloading song...");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, "/MP3Downloader/");
+        DownloadManager manager = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
     }
 }
