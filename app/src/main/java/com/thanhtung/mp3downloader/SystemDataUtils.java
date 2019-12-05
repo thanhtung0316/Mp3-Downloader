@@ -18,7 +18,13 @@ public class SystemDataUtils {
         resolver = context.getContentResolver();
     }
 
-    private OfflineSong getRow(Cursor cursor, Class<OfflineSong> clz) throws InstantiationException, IllegalAccessException {
+    public ArrayList<OfflineSong> getSongs(){
+        Cursor cursor =resolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,null,null,null,null);
+        return getData(cursor,OfflineSong.class);
+    }
+
+
+    public OfflineSong getRow(Cursor cursor, Class<OfflineSong> clz) throws InstantiationException, IllegalAccessException {
         Field[] fields = clz.getDeclaredFields();
         OfflineSong instance = clz.newInstance();
         for (Field f : fields) {
@@ -35,32 +41,32 @@ public class SystemDataUtils {
         return instance;
     }
 
-    private void mapValue(OfflineSong instance, String value, Field f) throws IllegalAccessException {
+    public void mapValue(OfflineSong instance, String value, Field f) throws IllegalAccessException {
         String type = f.getType().getSimpleName();
-        if (type.equalsIgnoreCase("int")) {
+        if (type.equalsIgnoreCase("int")){
             f.setInt(instance, Integer.parseInt(value));
             return;
         }
-        if (type.equalsIgnoreCase(Long.class.getSimpleName())) {
+        if (type.equalsIgnoreCase(Long.class.getSimpleName())){
             f.setLong(instance, Long.parseLong(value));
             return;
         }
-        if (type.equalsIgnoreCase(Boolean.class.getSimpleName())) {
+        if (type.equalsIgnoreCase(Boolean.class.getSimpleName())){
             f.setBoolean(instance, Boolean.parseBoolean(value));
             return;
         }
-        if (type.equalsIgnoreCase(Float.class.getSimpleName())) {
+        if (type.equalsIgnoreCase(Float.class.getSimpleName())){
             f.setFloat(instance, Float.parseFloat(value));
             return;
         }
-        if (type.equalsIgnoreCase(Double.class.getSimpleName())) {
+        if (type.equalsIgnoreCase(Double.class.getSimpleName())){
             f.setDouble(instance, Double.parseDouble(value));
             return;
         }
         f.set(instance, value);
     }
 
-    private ArrayList<OfflineSong> getData(Cursor cursor, Class<OfflineSong> clz) {
+    public ArrayList<OfflineSong> getData(Cursor cursor, Class<OfflineSong> clz) {
         ArrayList<OfflineSong> data = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

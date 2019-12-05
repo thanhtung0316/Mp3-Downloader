@@ -14,7 +14,6 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/imv_avatar"
-                android:src="@mipmap/ic_launcher"
                 android:layout_width="80dp"
                 android:layout_height="80dp"/>
             <TextView
