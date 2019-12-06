@@ -1,24 +1,31 @@
-package com.t3h.mp3music.views;
+package com.thanhtung.mp3downloader.ui.views;
 
 import android.annotation.TargetApi;
-import android.arch.lifecycle.Observer;
+
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import android.widget.SeekBar;
 
-import com.t3h.mp3music.R;
-import com.t3h.mp3music.databinding.PlayViewBinding;
-import com.t3h.mp3music.service.MP3Service;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
-public class PlayView extends FrameLayout implements PlayViewListener {
+import com.thanhtung.mp3downloader.R;
+import com.thanhtung.mp3downloader.databinding.PlayViewBinding;
+import com.thanhtung.mp3downloader.model.OfflineSong;
+import com.thanhtung.mp3downloader.service.PlaySongService;
+
+
+public class PlayView extends FrameLayout implements PlayViewListener, SeekBar.OnSeekBarChangeListener {
 
     private PlayViewBinding binding;
-    private MP3Service service;
-
+    private PlaySongService service;
+    private int duration;
     public PlayView(Context context) {
         super(context);
         init();
@@ -47,10 +54,11 @@ public class PlayView extends FrameLayout implements PlayViewListener {
                 true
         );
         binding.setListener(this);
+        binding.seekBar.setOnSeekBarChangeListener(this);
         setVisibility(GONE);
     }
 
-    public void setService(MP3Service service) {
+    public void setService(PlaySongService service) {
         this.service = service;
         AppCompatActivity act = (AppCompatActivity) getContext();
         service.getIsStarted().observe(act, new Observer<Boolean>() {
@@ -63,38 +71,52 @@ public class PlayView extends FrameLayout implements PlayViewListener {
                 }
             }
         });
-        service.getName().observe(act, new Observer<String>() {
+
+        service.getOffLineSong().observe(act, new Observer<OfflineSong>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                binding.setName(s);
+            public void onChanged(OfflineSong offlineSong) {
+                Log.e("TAG","OFF-SOng: "+offlineSong.getArtist());
+                binding.setArtist(offlineSong.getArtist());
+                binding.setName(offlineSong.getTitle());
+                duration = offlineSong.getDuration();
+                binding.setTotalTime(offlineSong.getDuration());
             }
         });
+
+        service.getTime().observe(act, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                binding.setTime(integer);
+                binding.seekBar.setMax(10000);
+                binding.seekBar.setProgress(integer*10000/duration);
+//                Log.e("TAG","TIME: "+integer +"----- Total: "+duration);
+//                Log.e("TAG","Progress"+(integer*100/duration));
+            }
+        });
+
         service.getIsPlaying().observe(act, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean isPlaying) {
                 if (isPlaying) {
-                    binding.imPlay.setImageResource(R.drawable.ic_pause);
+                    binding.imPlay.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
                 }else {
-                    binding.imPlay.setImageResource(R.drawable.ic_play);
+                    binding.imPlay.setImageResource(R.drawable.ic_play_circle_outline_black_24dp);
                 }
             }
         });
-        service.getTime().observe(act, new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer time) {
-                binding.setTime(time);
-            }
-        });
+
     }
 
     @Override
     public void onNext() {
-        service.change(MP3Service.NEXT);
+        service.change(PlaySongService.NEXT);
     }
+
+
 
     @Override
     public void onPrev() {
-        service.change(MP3Service.PREV);
+        service.change(PlaySongService.PREV);
     }
 
     @Override
@@ -104,5 +126,25 @@ public class PlayView extends FrameLayout implements PlayViewListener {
         }else {
             service.start();
         }
+    }
+
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (fromUser){
+            service.seek(progress/1000);
+            seekBar.setProgress(progress);
+            Log.e("TAG","progress: "+progress/10000);
+
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
     }
 }

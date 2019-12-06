@@ -31,6 +31,10 @@ public class BaseSongAdapter<T extends BaseModel> extends RecyclerView.Adapter<B
         notifyDataSetChanged();
     }
 
+    public List<T> getData() {
+        return data;
+    }
+
     @NonNull
     @Override
     public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +47,7 @@ public class BaseSongAdapter<T extends BaseModel> extends RecyclerView.Adapter<B
     public void onBindViewHolder(@NonNull BaseSongAdapter.BaseHolder baseHolder, int i) {
         T item = data.get(i);
         baseHolder.binding.setVariable(BR.item, item);
+        baseHolder.binding.setVariable(BR.listener,itemlistener);
         baseHolder.binding.executePendingBindings();
     }
 

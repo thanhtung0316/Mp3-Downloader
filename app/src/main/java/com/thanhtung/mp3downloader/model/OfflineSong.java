@@ -4,7 +4,7 @@ import android.provider.MediaStore;
 
 
 public class OfflineSong extends BaseModel {
-    @FieldInfo(fieldName = MediaStore.Audio.AudioColumns.DATE_ADDED)
+    @FieldInfo(fieldName = MediaStore.Audio.AudioColumns.DATA)
     private String data;
     @FieldInfo(fieldName = MediaStore.Audio.AudioColumns.TITLE)
     private String title;
