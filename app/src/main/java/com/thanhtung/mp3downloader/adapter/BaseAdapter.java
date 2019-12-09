@@ -3,15 +3,20 @@ package com.thanhtung.mp3downloader.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.thanhtung.mp3downloader.model.BaseModel;
+import com.thanhtung.mp3downloader.model.youtubemodel.Item;
+
 import java.util.List;
 
-public class BaseSongAdapter<T extends BaseModel> extends RecyclerView.Adapter<BaseSongAdapter.BaseHolder> {
+public class BaseAdapter<T extends BaseModel> extends RecyclerView.Adapter<BaseAdapter.BaseHolder> {
     private List<T> data;
     private LayoutInflater inflater;
     private int layoutId;
@@ -21,7 +26,7 @@ public class BaseSongAdapter<T extends BaseModel> extends RecyclerView.Adapter<B
         this.itemlistener = itemlistener;
     }
 
-    public BaseSongAdapter(Context context, int layoutId) {
+    public BaseAdapter(Context context, int layoutId) {
         inflater = LayoutInflater.from(context);
         this.layoutId = layoutId;
     }
@@ -44,10 +49,11 @@ public class BaseSongAdapter<T extends BaseModel> extends RecyclerView.Adapter<B
 
 
     @Override
-    public void onBindViewHolder(@NonNull BaseSongAdapter.BaseHolder baseHolder, int i) {
+    public void onBindViewHolder(@NonNull BaseAdapter.BaseHolder baseHolder, int i) {
         T item = data.get(i);
+
         baseHolder.binding.setVariable(BR.item, item);
-        baseHolder.binding.setVariable(BR.listener,itemlistener);
+        baseHolder.binding.setVariable(BR.listener, itemlistener);
         baseHolder.binding.executePendingBindings();
     }
 
@@ -57,6 +63,7 @@ public class BaseSongAdapter<T extends BaseModel> extends RecyclerView.Adapter<B
     }
 
 
+
     public class BaseHolder extends RecyclerView.ViewHolder {
         ViewDataBinding binding;
 
@@ -64,6 +71,9 @@ public class BaseSongAdapter<T extends BaseModel> extends RecyclerView.Adapter<B
             super(binding.getRoot());
             this.binding = binding;
         }
+
     }
-    public interface BaseItemlistener{}
+
+    public interface BaseItemlistener {
+    }
 }

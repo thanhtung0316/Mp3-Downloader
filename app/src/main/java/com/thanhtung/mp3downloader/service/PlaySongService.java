@@ -244,7 +244,9 @@ public class PlaySongService extends Service implements MediaPlayer.OnCompletion
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
-        player.release();
+        if (player!=null){
+            player.release();
+        }
     }
 
     public void setData(List<OfflineSong> data) {

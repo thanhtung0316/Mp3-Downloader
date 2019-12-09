@@ -50,15 +50,8 @@ public class OnlineMusicFragment extends Fragment {
         return fmSearch;
     }
 
-    public void setFmSearch(OnlineSearchMusicFragment fmSearch) {
-        this.fmSearch = fmSearch;
-    }
-
     public MusicDetailFragment getFmDetail() {
         return fmDetail;
     }
 
-    public void setFmDetail(MusicDetailFragment fmDetail) {
-        this.fmDetail = fmDetail;
-    }
 }

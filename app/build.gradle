@@ -47,4 +47,7 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2@aar'
 //    blur Image
     implementation 'com.github.jgabrielfreitas:BlurImageView:1.0.1'
+//    retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 }
