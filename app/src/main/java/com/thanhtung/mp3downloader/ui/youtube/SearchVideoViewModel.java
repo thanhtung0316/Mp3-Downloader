@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class YoutubeViewModel extends ViewModel implements Callback<ApiResult> {
+public class SearchVideoViewModel extends ViewModel implements Callback<ApiResult> {
     private MutableLiveData<List<Item>> data;
     private final String part = "snippet";
     private final String type = "video";
@@ -50,6 +50,8 @@ public class YoutubeViewModel extends ViewModel implements Callback<ApiResult> {
             List<Item> items = response.body().getItems();
             data.postValue(items);
             Log.e("TAG","CALL API");
+        } else {
+            Log.e("TAG","ERROR");
         }
     }
 

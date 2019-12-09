@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_online_search_music" />
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.thanhtung.mp3downloader.ui.youtube.YoutubeFragment"
+        android:name="com.thanhtung.mp3downloader.ui.youtube.SearchVideoFragment"
         android:label="@string/title_youtube"
         tools:layout="@layout/fragment_offline_music" />
 
@@ -19,5 +19,5 @@
         android:id="@+id/navigation_notifications"
         android:name="com.thanhtung.mp3downloader.ui.offline.OfflineMusicFragment"
         android:label="@string/title_offline"
-        tools:layout="@layout/fragment_youtube" />
+        tools:layout="@layout/fragment_search_video" />
 </navigation>

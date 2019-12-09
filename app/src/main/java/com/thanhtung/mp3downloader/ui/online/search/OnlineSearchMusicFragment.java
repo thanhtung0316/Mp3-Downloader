@@ -42,7 +42,11 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
 
     private void init() {
         adapter = new SongAdapter(context);
+
+
         fmOnline = (OnlineMusicFragment) getParentFragment();
+
+
         adapter.setListener(this);
         binding.searchView.setOnQueryTextListener(this);
 

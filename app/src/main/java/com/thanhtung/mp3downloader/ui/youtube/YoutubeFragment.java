@@ -1,60 +1,53 @@
 package com.thanhtung.mp3downloader.ui.youtube;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.thanhtung.mp3downloader.R;
-import com.thanhtung.mp3downloader.adapter.BaseAdapter;
 import com.thanhtung.mp3downloader.databinding.FragmentYoutubeBinding;
-import com.thanhtung.mp3downloader.model.youtubemodel.Item;
 
-import java.util.List;
-
-public class YoutubeFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class YoutubeFragment extends Fragment {
     private FragmentYoutubeBinding binding;
-    private YoutubeViewModel viewModel;
-    private BaseAdapter adapter;
+    private SearchVideoFragment fmVideoSearch = new SearchVideoFragment();
+    private PlayVideoFragment fmPlayVideo = new PlayVideoFragment();
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_youtube, container, false);
-        adapter = new BaseAdapter(getContext(), R.layout.item_video);
-        binding.searchView.setOnQueryTextListener(this);
-        viewModel = ViewModelProviders.of(requireActivity()).get(YoutubeViewModel.class);
-
-        viewModel.getData().observe(requireActivity(), new Observer<List<Item>>() {
-            @Override
-            public void onChanged(List<Item> items) {
-                adapter.setData(items);
-                binding.rvVideo.setAdapter(adapter);
-            }
-        });
+        init();
+        showFragment(fmVideoSearch,android.R.anim.fade_in, android.R.anim.fade_out);
         return binding.getRoot();
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        viewModel.setKeySearch(query);
-
-        return false;
+    private void init() {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.ly_frame, fmVideoSearch).add(R.id.ly_frame, fmPlayVideo);
+        transaction.commit();
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
+    public void showFragment(Fragment fmShow, int animationIn, int animationOut) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.hide(fmPlayVideo).hide(fmVideoSearch).show(fmShow);
+        transaction.setCustomAnimations(animationIn, animationOut);
+        transaction.show(fmShow);
+        transaction.commit();
+    }
 
 
-        return false;
+    public SearchVideoFragment getFmVideoSearch() {
+        return fmVideoSearch;
+    }
+
+    public PlayVideoFragment getFmPlayVideo() {
+        return fmPlayVideo;
     }
 }
-
-

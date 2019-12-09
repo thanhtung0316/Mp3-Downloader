@@ -6,9 +6,13 @@
         <variable
             name="item"
             type="com.thanhtung.mp3downloader.model.youtubemodel.Item" />
+        <variable
+            name="listener"
+            type="com.thanhtung.mp3downloader.ui.youtube.ItemVideoListener" />
     </data>
 
     <androidx.cardview.widget.CardView
+        android:onClick="@{v -> listener.onVideoClicked(item)}"
         android:layout_margin="5dp"
         android:padding="5dp"
         android:layout_width="match_parent"
