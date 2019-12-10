@@ -4,17 +4,14 @@ import android.annotation.TargetApi;
 
 import android.content.Context;
 import android.os.Build;
-
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.databinding.PlayViewBinding;
 import com.thanhtung.mp3downloader.model.OfflineSong;
@@ -26,6 +23,7 @@ public class PlayView extends FrameLayout implements PlayViewListener, SeekBar.O
     private PlayViewBinding binding;
     private PlaySongService service;
     private int duration;
+
     public PlayView(Context context) {
         super(context);
         init();
@@ -64,18 +62,21 @@ public class PlayView extends FrameLayout implements PlayViewListener, SeekBar.O
         service.getIsStarted().observe(act, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean isStarted) {
-                if (isStarted) {
-                    setVisibility(VISIBLE);
-                }else {
-                    setVisibility(GONE);
+                if (isStarted != null) {
+                    if (isStarted) {
+                        setVisibility(VISIBLE);
+                    } else {
+                        setVisibility(GONE);
+                    }
                 }
+
             }
         });
 
         service.getOffLineSong().observe(act, new Observer<OfflineSong>() {
             @Override
             public void onChanged(OfflineSong offlineSong) {
-                Log.e("TAG","OFF-SOng: "+offlineSong.getArtist());
+                Log.e("TAG", "OFF-SOng: " + offlineSong.getArtist());
                 binding.setArtist(offlineSong.getArtist());
                 binding.setName(offlineSong.getTitle());
                 duration = offlineSong.getDuration();
@@ -88,7 +89,7 @@ public class PlayView extends FrameLayout implements PlayViewListener, SeekBar.O
             public void onChanged(Integer integer) {
                 binding.setTime(integer);
                 binding.seekBar.setMax(10000);
-                binding.seekBar.setProgress(integer*10000/duration);
+                binding.seekBar.setProgress(integer * 10000 / duration);
 //                Log.e("TAG","TIME: "+integer +"----- Total: "+duration);
 //                Log.e("TAG","Progress"+(integer*100/duration));
             }
@@ -97,11 +98,14 @@ public class PlayView extends FrameLayout implements PlayViewListener, SeekBar.O
         service.getIsPlaying().observe(act, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean isPlaying) {
-                if (isPlaying) {
-                    binding.imPlay.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
-                }else {
-                    binding.imPlay.setImageResource(R.drawable.ic_play_circle_outline_black_24dp);
+                if (isPlaying != null) {
+                    if (isPlaying) {
+                        binding.imPlay.setImageResource(R.drawable.ic_pause_circle_outline_black_24dp);
+                    } else {
+                        binding.imPlay.setImageResource(R.drawable.ic_play_circle_outline_black_24dp);
+                    }
                 }
+
             }
         });
 
@@ -113,7 +117,6 @@ public class PlayView extends FrameLayout implements PlayViewListener, SeekBar.O
     }
 
 
-
     @Override
     public void onPrev() {
         service.change(PlaySongService.PREV);
@@ -121,21 +124,22 @@ public class PlayView extends FrameLayout implements PlayViewListener, SeekBar.O
 
     @Override
     public void onPlay() {
-        if (service.getIsPlaying().getValue()) {
-            service.pause();
-        }else {
-            service.start();
+        if (service.getIsPlaying().getValue() != null) {
+            if (service.getIsPlaying().getValue()) {
+                service.pause();
+            } else {
+                service.start();
+            }
         }
     }
 
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (fromUser){
-            service.seek(progress/1000);
+        if (fromUser) {
+            service.seek(progress / 1000);
             seekBar.setProgress(progress);
-            Log.e("TAG","progress: "+progress/10000);
-
+            Log.e("TAG", "progress: " + progress / 10000);
         }
     }
 

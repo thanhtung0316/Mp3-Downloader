@@ -1,10 +1,12 @@
 package com.thanhtung.mp3downloader.ui.youtube;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.thanhtung.mp3downloader.YoutubeConfig;
 import com.thanhtung.mp3downloader.api.ApiBuilder;
 import com.thanhtung.mp3downloader.api.ApiResult;
 import com.thanhtung.mp3downloader.model.youtubemodel.Item;
@@ -19,10 +21,9 @@ public class SearchVideoViewModel extends ViewModel implements Callback<ApiResul
     private MutableLiveData<List<Item>> data;
     private final String part = "snippet";
     private final String type = "video";
-    private final String apiKey = "AIzaSyAIWg1CspES-FBcfSzcddsR98vMDkFCqPk";
     private final int maxResults =50;
     private String keySearch;
-
+    private String API_KEY = YoutubeConfig.getApiKey();
 
     public void setKeySearch(String keySearch) {
         this.keySearch = keySearch;
@@ -39,7 +40,7 @@ public class SearchVideoViewModel extends ViewModel implements Callback<ApiResul
 
     private void fetchData(String keySearch) {
         if (!(keySearch ==null)){
-            ApiBuilder.getInstance().getVideo(part,keySearch,type,apiKey,maxResults).enqueue(this);
+            ApiBuilder.getInstance().getVideo(part,keySearch,type,API_KEY,maxResults).enqueue(this);
         }
     }
 
@@ -51,7 +52,8 @@ public class SearchVideoViewModel extends ViewModel implements Callback<ApiResul
             data.postValue(items);
             Log.e("TAG","CALL API");
         } else {
-            Log.e("TAG","ERROR");
+
+            Log.e("TAG","ERROR API");
         }
     }
 

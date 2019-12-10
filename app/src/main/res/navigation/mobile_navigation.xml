@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_online_search_music" />
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.thanhtung.mp3downloader.ui.youtube.SearchVideoFragment"
+        android:name="com.thanhtung.mp3downloader.ui.youtube.YoutubeFragment"
         android:label="@string/title_youtube"
         tools:layout="@layout/fragment_offline_music" />
 
