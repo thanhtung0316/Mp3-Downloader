@@ -11,10 +11,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.adapter.BaseAdapter;
 import com.thanhtung.mp3downloader.databinding.FragmentSearchVideoBinding;
 import com.thanhtung.mp3downloader.model.youtubemodel.Item;
+
 import java.util.List;
 
 public class SearchVideoFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -41,11 +43,12 @@ public class SearchVideoFragment extends Fragment implements SearchView.OnQueryT
         });
         return binding.getRoot();
     }
+
     private ItemVideoListener listener = new ItemVideoListener() {
         @Override
         public void onVideoClicked(Item video) {
-            fmYoutube.showFragment(fmYoutube.getFmPlayVideo(),android.R.anim.slide_in_left,android.R.anim.slide_out_right);
-            if (fmYoutube.getFmPlayVideo().isHidden()){
+            fmYoutube.showFragment(fmYoutube.getFmPlayVideo(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            if (fmYoutube.getFmPlayVideo().isHidden()) {
                 fmYoutube.getFmPlayVideo().setVideo(video);
             }
         }

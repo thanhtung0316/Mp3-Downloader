@@ -7,53 +7,18 @@ import java.util.List;
 
 public class ApiResult {
     @SerializedName("kind")
-    public String kind;
+    private String kind;
     @SerializedName("etag")
-    public String etag;
+    private String etag;
     @SerializedName("nextPageToken")
-    public String nextPageToken;
+    private String nextPageToken;
     @SerializedName("regionCode")
-    public String regionCode;
+    private String regionCode;
     @SerializedName("items")
-    public List<Item> items;
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    public String getNextPageToken() {
-        return nextPageToken;
-    }
-
-    public void setNextPageToken(String nextPageToken) {
-        this.nextPageToken = nextPageToken;
-    }
-
-    public String getRegionCode() {
-        return regionCode;
-    }
-
-    public void setRegionCode(String regionCode) {
-        this.regionCode = regionCode;
-    }
+    private List<Item> items;
 
     public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
 }

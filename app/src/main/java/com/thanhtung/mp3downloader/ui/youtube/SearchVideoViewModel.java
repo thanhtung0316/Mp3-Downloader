@@ -52,8 +52,7 @@ public class SearchVideoViewModel extends ViewModel implements Callback<ApiResul
             data.postValue(items);
             Log.e("TAG","CALL API");
         } else {
-
-            Log.e("TAG","ERROR API");
+            Log.e("TAG","ERROR API "+response.code()+": "+response.message());
         }
     }
 

@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class Snippet {
     @SerializedName("publishedAt")
-    public String publishedAt;
+    private String publishedAt;
     @SerializedName("channelId")
-    public String channelId;
+    private String channelId;
     @SerializedName("title")
-    public String title;
+    private String title;
     @SerializedName("description")
-    public String description;
+    private String description;
     @SerializedName("thumbnails")
-    public VideoThumbnails thumbnails;
+    private VideoThumbnails thumbnails;
     @SerializedName("channelTitle")
-    public String channelTitle;
+    private String channelTitle;
     @SerializedName("liveBroadcastContent")
-    public String liveBroadcastContent;
+    private String liveBroadcastContent;
 
     public String getPublishedAt() {
         return publishedAt;

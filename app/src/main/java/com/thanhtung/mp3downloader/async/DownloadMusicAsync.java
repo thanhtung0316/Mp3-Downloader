@@ -15,11 +15,11 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class DownloadAsync extends AsyncTask<String, Integer, String> {
+public class DownloadMusicAsync extends AsyncTask<String, Integer, String> {
 
     private DownloadCallback callback;
     private File file;
-    public DownloadAsync(DownloadCallback callback) {
+    public DownloadMusicAsync(DownloadCallback callback) {
         this.callback = callback;
     }
 

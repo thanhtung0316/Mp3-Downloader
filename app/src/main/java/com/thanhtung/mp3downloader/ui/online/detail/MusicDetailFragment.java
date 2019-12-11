@@ -2,7 +2,6 @@ package com.thanhtung.mp3downloader.ui.online.detail;
 
 import android.Manifest;
 import android.app.DownloadManager;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -24,7 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.adapter.SongDetailPagerAdapter;
-import com.thanhtung.mp3downloader.async.DownloadAsync;
+import com.thanhtung.mp3downloader.async.DownloadMusicAsync;
 import com.thanhtung.mp3downloader.databinding.FragmentSongDetailBinding;
 import com.thanhtung.mp3downloader.model.Song;
 import com.thanhtung.mp3downloader.model.SongDetail;
@@ -37,7 +35,7 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
     private OnlineMusicFragment fmOnline;
     private MusicDetailViewModel musicDetailViewModel;
     private OnlineSearchMusicViewModel searchMusicViewModel;
-    private DownloadAsync async;
+    private DownloadMusicAsync async;
     private Context context;
     private final String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -70,7 +68,7 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.imv_download:
                 if (checkPermission()) {
-//                    async = new DownloadAsync(downloadCallback);
+//                    async = new DownloadMusicAsync(downloadCallback);
 //                    async.execute();
                     Log.e("TAG", "imv_clicked");
                 }
@@ -90,7 +88,7 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
         });
     }
 
-    private DownloadAsync.DownloadCallback downloadCallback = new DownloadAsync.DownloadCallback() {
+    private DownloadMusicAsync.DownloadCallback downloadCallback = new DownloadMusicAsync.DownloadCallback() {
         @Override
         public void onDownloadUpdate(int percent) {
             Log.e("TAG", "PERCENT: " + percent);
@@ -113,7 +111,7 @@ public class MusicDetailFragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onClick(View v) {
                         if (checkPermission()) {
-//                            async = new DownloadAsync(downloadCallback);
+//                            async = new DownloadMusicAsync(downloadCallback);
 //                            async.execute(songDetail.getSongDownloadLink());
                             downloadFile(songDetail);
 
