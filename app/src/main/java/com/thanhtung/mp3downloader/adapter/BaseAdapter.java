@@ -10,9 +10,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.thanhtung.mp3downloader.model.BaseModel;
-import com.thanhtung.mp3downloader.model.youtubemodel.Item;
 
 import java.util.List;
 

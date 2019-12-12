@@ -16,14 +16,19 @@ import androidx.fragment.app.FragmentTransaction;
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.databinding.FragmentOnlineMusicBinding;
 import com.thanhtung.mp3downloader.ui.online.detail.MusicDetailFragment;
+import com.thanhtung.mp3downloader.ui.online.rank.OnlineRankingMusicFragment;
 import com.thanhtung.mp3downloader.ui.online.search.OnlineSearchMusicFragment;
 
 public class OnlineMusicFragment extends Fragment {
     private FragmentOnlineMusicBinding binding;
     private OnlineSearchMusicFragment fmSearch = new OnlineSearchMusicFragment();
     private MusicDetailFragment fmDetail = new MusicDetailFragment();
+    private OnlineRankingMusicFragment fmRanking = new OnlineRankingMusicFragment();
     private FragmentManager manager;
     private FragmentTransaction transaction;
+
+    private String TAG = "OnlineMusicFragment";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,17 +36,19 @@ public class OnlineMusicFragment extends Fragment {
 
         manager = getChildFragmentManager();
         transaction = manager.beginTransaction();
-        if (manager.getFragments().isEmpty()){
+        if (manager.getFragments().isEmpty()) {
             init();
+            Log.e(TAG, "INIT DONE");
         }
+        showFragment(fmRanking, android.R.anim.fade_in, android.R.anim.fade_out);
 
-        showFragment(fmSearch, android.R.anim.fade_in, android.R.anim.fade_out);
         return binding.getRoot();
     }
 
     private void init() {
         transaction.add(R.id.ly_frame, fmSearch);
         transaction.add(R.id.ly_frame, fmDetail);
+        transaction.add(R.id.ly_frame, fmRanking);
         transaction.commit();
 
     }
@@ -50,6 +57,7 @@ public class OnlineMusicFragment extends Fragment {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.hide(fmDetail);
         transaction.hide(fmSearch);
+        transaction.hide(fmRanking);
         transaction.setCustomAnimations(animationIn, animationOut);
         transaction.show(fmShow);
         transaction.commit();
@@ -63,4 +71,7 @@ public class OnlineMusicFragment extends Fragment {
         return fmDetail;
     }
 
+    public OnlineRankingMusicFragment getFmRanking() {
+        return fmRanking;
+    }
 }

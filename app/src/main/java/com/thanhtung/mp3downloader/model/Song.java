@@ -1,12 +1,21 @@
 package com.thanhtung.mp3downloader.model;
 
 public class Song {
+    private int songRank;
     private String songName;
     private String songArtist;
     private String songQuality;
     private String songViews;
     private String imageLink;
     private String linkDetail;
+
+    public int getSongRank() {
+        return songRank;
+    }
+
+    public void setSongRank(int songRank) {
+        this.songRank = songRank;
+    }
 
     public String getImageLink() {
         return imageLink;
