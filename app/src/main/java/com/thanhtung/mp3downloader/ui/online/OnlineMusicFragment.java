@@ -12,21 +12,26 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.databinding.FragmentOnlineMusicBinding;
+import com.thanhtung.mp3downloader.model.Song;
 import com.thanhtung.mp3downloader.ui.online.detail.MusicDetailFragment;
-import com.thanhtung.mp3downloader.ui.online.rank.OnlineRankingMusicFragment;
+import com.thanhtung.mp3downloader.ui.online.rank.OnlineRankingFragment;
 import com.thanhtung.mp3downloader.ui.online.search.OnlineSearchMusicFragment;
+
+import java.util.List;
 
 public class OnlineMusicFragment extends Fragment {
     private FragmentOnlineMusicBinding binding;
     private OnlineSearchMusicFragment fmSearch = new OnlineSearchMusicFragment();
     private MusicDetailFragment fmDetail = new MusicDetailFragment();
-    private OnlineRankingMusicFragment fmRanking = new OnlineRankingMusicFragment();
+    private OnlineRankingFragment fmRanking = new OnlineRankingFragment();
     private FragmentManager manager;
     private FragmentTransaction transaction;
-
+    private OnlineRankingViewModel viewModel;
     private String TAG = "OnlineMusicFragment";
 
     @Nullable
@@ -38,9 +43,22 @@ public class OnlineMusicFragment extends Fragment {
         transaction = manager.beginTransaction();
         if (manager.getFragments().isEmpty()) {
             init();
-            Log.e(TAG, "INIT DONE");
         }
         showFragment(fmRanking, android.R.anim.fade_in, android.R.anim.fade_out);
+        viewModel = ViewModelProviders.of(requireActivity()).get(OnlineRankingViewModel.class);
+        viewModel.getSongs().observe(getViewLifecycleOwner(), new Observer<List<List<Song>>>() {
+            @Override
+            public void onChanged(List<List<Song>> lists) {
+                if (lists.size()!=0){
+                    viewModel.setVnRanking(lists.get(0));
+                    viewModel.setUsRanking(lists.get(1));
+                    viewModel.setKoreaRanking(lists.get(2));
+                }
+
+            }
+        });
+
+
 
         return binding.getRoot();
     }
@@ -71,7 +89,7 @@ public class OnlineMusicFragment extends Fragment {
         return fmDetail;
     }
 
-    public OnlineRankingMusicFragment getFmRanking() {
+    public OnlineRankingFragment getFmRanking() {
         return fmRanking;
     }
 }

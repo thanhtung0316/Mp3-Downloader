@@ -15,25 +15,24 @@ import androidx.lifecycle.ViewModelProviders;
 import com.thanhtung.mp3downloader.R;
 import com.thanhtung.mp3downloader.adapter.BaseAdapter;
 import com.thanhtung.mp3downloader.adapter.SongAdapter;
-import com.thanhtung.mp3downloader.databinding.FragmentKoreaRankingMusicBinding;
-import com.thanhtung.mp3downloader.databinding.FragmentVietnamRankingMusicBinding;
+import com.thanhtung.mp3downloader.databinding.FragmentUsukRankingMusicBinding;
 import com.thanhtung.mp3downloader.model.Song;
 import com.thanhtung.mp3downloader.ui.online.OnlineRankingViewModel;
 
 import java.util.List;
 
-public class KoreaFragment extends Fragment {
-    private FragmentKoreaRankingMusicBinding binding;
+public class UsUkFragment extends Fragment {
     private OnlineRankingViewModel viewModel;
+    private FragmentUsukRankingMusicBinding binding;
     private SongAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_korea_ranking_music,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_usuk_ranking_music,container,false);
         adapter = new SongAdapter(getContext());
         viewModel = ViewModelProviders.of(requireActivity()).get(OnlineRankingViewModel.class);
-        viewModel.getKoreaRanking().observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
+        viewModel.getUsRanking().observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
             @Override
             public void onChanged(List<Song> songs) {
                 adapter.setData(songs);

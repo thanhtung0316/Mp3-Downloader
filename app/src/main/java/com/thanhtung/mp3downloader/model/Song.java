@@ -1,6 +1,6 @@
 package com.thanhtung.mp3downloader.model;
 
-public class Song {
+public class Song extends BaseModel {
     private int songRank;
     private String songName;
     private String songArtist;

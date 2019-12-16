@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
-        android:background="#A003BB"
         android:padding="6dp"
         android:orientation="vertical"
         android:id="@+id/rlt_music_online"

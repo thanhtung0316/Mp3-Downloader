@@ -2,6 +2,7 @@ package com.thanhtung.mp3downloader.ui.online.search;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,16 +49,6 @@ public class OnlineSearchMusicFragment extends Fragment implements SearchView.On
         adapter.setListener(this);
         binding.searchView.setOnQueryTextListener(this);
         binding.imvBack.setOnClickListener(this);
-//        viewModel = ViewModelProviders.of(this).get(OnlineRankingViewModel.class);
-//        viewModel.getSongs().observe(getViewLifecycleOwner(), new Observer<List<Song>>() {
-//            @Override
-//            public void onChanged(List<Song> songs) {
-//                Log.e("OnlineMusicFragment","SIZE: "+songs.size());
-//                adapter.setData(songs);
-//                binding.rvSong.setAdapter(adapter);
-//            }
-//        });
-
 
         musicSearchViewModel = ViewModelProviders.of(requireActivity()).get(OnlineSearchMusicViewModel.class);
         musicSearchViewModel.getSongs().observe(requireActivity(), new Observer<List<Song>>() {

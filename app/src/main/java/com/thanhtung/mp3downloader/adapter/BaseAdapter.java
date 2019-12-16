@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.databinding.library.baseAdapters.BR;
+//import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thanhtung.mp3downloader.model.BaseModel;
@@ -50,8 +50,8 @@ public class BaseAdapter<T extends BaseModel> extends RecyclerView.Adapter<BaseA
     public void onBindViewHolder(@NonNull BaseAdapter.BaseHolder baseHolder, int i) {
         T item = data.get(i);
 
-        baseHolder.binding.setVariable(BR.item, item);
-        baseHolder.binding.setVariable(BR.listener, itemlistener);
+        baseHolder.binding.setVariable(com.thanhtung.mp3downloader.BR.item, item);
+        baseHolder.binding.setVariable(com.thanhtung.mp3downloader.BR.listener, itemlistener);
         baseHolder.binding.executePendingBindings();
     }
 
