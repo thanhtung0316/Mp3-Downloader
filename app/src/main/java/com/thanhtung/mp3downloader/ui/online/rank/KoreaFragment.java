@@ -41,7 +41,6 @@ public class KoreaFragment extends Fragment {
             }
         });
 
-
         return binding.getRoot();
     }
 }
